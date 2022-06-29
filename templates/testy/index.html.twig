@@ -1,0 +1,49 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Testy{% endblock %}
+
+{% block body %}
+    <div class="container card">
+        <div class="card-header">
+            {{ block("title") }}
+        </div>
+        <div class="card-body">
+
+            <table class="table caption-top">
+
+                <tr>
+                    <td class="col-4">
+                        název
+                    </td>
+                    <td class="col-4">
+                        čas vytvoření
+                    </td>
+                    <td class="col-2"></td>
+                    <td class="col-2"></td>
+                    <td class="col-2"></td>
+                </tr>
+
+                {% for test in testy %}
+                    <tr>
+                        <td class="col-4">
+                            {{ test.nazev }}
+                        </td>
+                        <td class="col-4">
+                            {{ test.casVytvoreni|date("d.m.Y H:i") }}
+                        </td>
+                        <td class="col-2">
+                            <a class="btn btn-success" href="/test/{{ test.id }}/spustit">spustit</a>
+                        </td>
+                        <td class="col-2">
+                            <a class="btn btn-primary" href="/testy/{{ test.id }}/upravit">upravit</a>
+                        </td>
+                        <td class="col-2">
+                            <a class="btn btn-danger" href="/testy/{{ test.id }}/odstranit">odstranit</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+        </div>
+    </div>
+{% endblock %}

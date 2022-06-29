@@ -1,0 +1,51 @@
+{{ form_start(form) }}
+
+    <div class="row mb-3">
+        <div class="col-2">
+            Otázka:
+        </div>
+        <div class="col-10">                
+            {{ form_widget(form.text) }}
+            {{ form_errors(form.text) }}
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-2">
+            Odpovědi:
+        </div>
+        <div class="col-10">
+
+            {% for i in 0..(form.odpovedi.count - 1) %}
+                <div class="row mb-3">
+                    <div class="col-10">                
+                        {{ form_widget(form.odpovedi[i].text) }}
+                        {{ form_errors(form.odpovedi[i].text) }}
+                    </div>
+                    <div class="col-2">
+                        {{ form_widget(form.spravnaOdpoved[i], { label: false }) }}
+                    </div>
+                </div>
+            {% endfor %}
+
+            {% if form.spravnaOdpoved.vars.valid == false %}
+                <div class="row">
+                    <div class="col-10">                
+                    </div>
+                    <div class="col-2">
+                        {{ form_errors(form.spravnaOdpoved) }}
+                    </div>
+                </div>
+            {% endif %}
+
+        </div>                    
+    </div>
+
+    <div class="row mb-3">
+        <div class="col text-center">
+            {{ form_widget(form.odeslat, {"label": nazevTlacitka}) }}
+            <a class="btn btn-secondary" href="../../upravit">Zrušit</a>
+        </div>
+    </div>
+
+{{ form_end(form) }}

@@ -1,0 +1,32 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Odstranit otázku{% endblock %}
+
+{% block body %}
+    <div class="container card">
+        <div class="card-header">
+            {{ block("title") }}
+        </div>
+        <div class="card-body">
+
+            <div class="row">
+                <div class="col text-center">
+                    Chcete opravdu odstranit tuto otázku?
+                </div>
+            </div>
+
+            <form method="post">
+                <div class="row">
+                    <div class="col text-center">
+                        <button class="btn btn-primary" type="submit" name="ano">Ano</button>
+                    </div>
+                    <div class="col text-center">
+                        <button class="btn btn-secondary" type="submit" name="ne">Ne</button>
+                    </div>
+                </div>
+                <input type="hidden" name="_token" value="{{ csrf_token('dfgsdsdffd') }}"/>
+            </form>
+
+        </div>
+    </div>
+{% endblock %}

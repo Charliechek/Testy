@@ -1,0 +1,16 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Test neexistuje{% endblock %}
+
+{% block body %}
+    <div class="container card">
+        <div class="card-header">
+            {{ block("title") }}
+        </div>
+        <div class="card-body text-center">
+
+            Tento test neexistuje.
+
+        </div>
+    </div>
+{% endblock %}

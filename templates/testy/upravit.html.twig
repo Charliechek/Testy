@@ -1,0 +1,69 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Upravit test{% endblock %}
+
+{% block body %}
+    <div class="container card">
+        <div class="card-header">
+            {{ block("title") }}
+        </div>
+        <div class="card-body">
+
+            <div class="container p-5">
+                {{ form_start(form) }}
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.nazev) }}
+                            {{ form_errors(form.nazev) }}
+                        </div>
+                        <div class="col-4">
+                            {{ form_widget(form.odeslat, {label: "uložit změny"}) }}
+                            <a class="btn btn-secondary" href="/testy">Zrušit změny</a>
+                        </div>
+                    </div>
+                {{ form_end(form) }}
+            </div>
+
+            <div class="container p-5">
+
+                <div class="row px-2">
+                    <div class="col text-start">
+                        Otázky
+                    </div>
+                    <div class="col text-end">
+                        <a class="btn btn-primary" href="otazky/nova">Přidat novou otázku</a>
+                    </div>
+                </div>
+
+                <table class="table">
+                    <tr>
+                        <th>Otázka</th>
+                        <th>Odpovědi</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+
+                    {% for otazka in otazky %}
+                        <tr>
+                            <td class="col-4">{{ otazka.text }}</td>
+                            <td class="col-4">
+                                {% for i in 0..(otazka.odpovedi.count - 1) %}
+                                    {{ otazka.odpovedi[i].text }} {% if i == otazka.spravnaOdpoved %}&#9733;{% endif %}<br>
+                                {% endfor %}
+                            </td>
+                            <td class="col-2">
+                                <a class="btn btn-primary" href="otazky/{{ otazka.id }}/upravit">upravit</a>
+                            </td>
+                            <td class="col-2">
+                                <a class="btn btn-danger" href="otazky/{{ otazka.id }}/odstranit">odstranit</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+                </table>
+
+            </div>
+           
+        </div>
+    </div>
+{% endblock %}

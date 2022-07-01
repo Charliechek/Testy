@@ -4,8 +4,8 @@
 
 {% block body %}
     <div class="container card">
-        <div class="card-header text-center">
-            {{ block("title") }}
+        <div class="card-header p-3">
+            <h1>{{ block("title") }}</h1>
         </div>
         <div class="card-body">
 
@@ -16,7 +16,7 @@
             </div>
             <div class="row">
                 <div class="col text-center p-3">
-                    <a class="btn btn-primary" href="/testy">Zpět na testy</a>
+                    <a class="btn btn-primary" href="{{ path('testy_index') }}">Zpět na testy</a>
                 </div>
             </div>
            

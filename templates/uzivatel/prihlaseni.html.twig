@@ -1,0 +1,74 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Registrace uživatele{% endblock %}
+
+{% block body %}
+    <div class="container card">
+
+        <div class="card-header p-3">
+            <h1>{{ block("title") }}</h1>
+        </div>
+
+        <div class="card-body">
+
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+            <div class="container p-5">
+
+                {% for zprava in app.flashes("registrace") %}
+                    <div class="alert alert-success">
+                        {{ zprava }}
+                    </div>
+                {% endfor %}
+
+                <form method="post">
+
+                    <div class="row mb-3">
+                        <div class="col-2">
+                            <label class="mx-3">jméno:</label>
+                        </div>
+                        <div class="col">
+                            <input class="form-control mx-3" type="text" value="{{ last_username }}" name="jmeno" autocomplete="username" autofocus>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-2">
+                            <label class="mx-3">heslo:</label>
+                        </div>
+                        <div class="col">
+                            <input class="form-control mx-3" type="password" name="password" autocomplete="current-password">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col text-center">
+                            <button class="btn btn-lg btn-primary" type="submit">
+                                Přihlásit
+                            </button>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="_csrf_token"
+                        value="{{ csrf_token('authenticate') }}"
+                    >
+
+                        {#
+                            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+                            See https://symfony.com/doc/current/security/remember_me.html
+
+                            <div class="checkbox mb-3">
+                                <label>
+                                    <input type="checkbox" name="_remember_me"> Remember me
+                                </label>
+                            </div>
+                        #}
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+{% endblock %}

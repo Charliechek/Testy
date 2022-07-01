@@ -25,8 +25,8 @@ class OtazkyController extends AbstractController
         $this->testy = new TestRepository($managerRegistry);
     }
 
-    #[Route('/testy/{id}/otazky/nova', name: 'otazky_nova')]
-    public function nova(Request $request, int $id): Response
+    #[Route('/testy/{idTestu}/otazky/nova', name: 'otazky_nova')]
+    public function nova(Request $request, int $idTestu): Response
     {
         $otazka = $this->vytvorPrazdnouOtazku();
         $form = $this->createForm(OtazkaType::class, $otazka);
@@ -34,17 +34,18 @@ class OtazkyController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $otazka = $form->getData();
-            $test = $this->testy->find($id);
+            $test = $this->testy->find($idTestu);
             if (is_null($test)) {
                 return $this->redirectToRoute("testy_neexistuje");
             }
             $otazka->setTest($test);
             $this->otazky->add($otazka, true);
-            return $this->redirectToRoute("testy_upravit", ["id" => $id]);
+            return $this->redirectToRoute("testy_upravit", ["id" => $idTestu]);
         }
 
         return $this->render('otazky/nova.html.twig', [
-            "form" => $form->createView()
+            "form" => $form->createView(),
+            "idTestu" => $idTestu
         ]);
     }
 
@@ -66,7 +67,8 @@ class OtazkyController extends AbstractController
         }
 
         return $this->render('otazky/upravit.html.twig', [
-            "form" => $form->createView()
+            "form" => $form->createView(),
+            "idTestu" => $idTestu
         ]);
     }
 

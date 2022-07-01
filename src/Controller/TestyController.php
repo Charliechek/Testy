@@ -21,7 +21,7 @@ class TestyController extends AbstractController
         $this->testy = new TestRepository($managerRegistry);
     }
 
-    #[Route('/testy', name: 'testy_index')]
+    #[Route('/testy/index', name: 'testy_index')]
     public function index(): Response
     {
         return $this->render("testy/index.html.twig", [
@@ -67,7 +67,8 @@ class TestyController extends AbstractController
 
         return $this->render("testy/upravit.html.twig", [
             "form" => $form->createView(),
-            "otazky" => $test->getOtazky()
+            "otazky" => $test->getOtazky(),
+            "idTestu" => $id
         ]);
     }
 

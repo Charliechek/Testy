@@ -13,13 +13,13 @@ class TestSession
 
     private SessionInterface $session;
     private array $otazky;
-    private int $aktualni;
+    private ?int $aktualni;
 
     public function __construct(SessionInterface $session)
     {
         $this->session = $session;
-        $this->otazky = $this->session->get(self::OTAZKY);
-        $this->aktualni = $this->session->get(self::AKTUALNI_OTAZKA);
+        $this->otazky = $this->session->get(self::OTAZKY) ?? [];
+        $this->aktualni = $this->session->get(self::AKTUALNI_OTAZKA) ?? null;
     }
 
     public function vratIdAktualniOtazky(): ?int

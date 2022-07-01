@@ -45,7 +45,7 @@ class OtazkaType extends AbstractType
             'data_class' => Otazka::class,
             'csrf_protection' => true,
             'csrf_field_name' => '_token',
-            'csrf_token_id'   => 'dfknfdks',
+            'csrf_token_id' => 'dfknfdks',
             "attr" => [
                 "novalidate" => "novalidate"
             ]

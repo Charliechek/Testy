@@ -4,9 +4,11 @@
 
 {% block body %}
     <div class="container card">
-        <div class="card-header">
-            {{ block("title") }}
+
+        <div class="card-header p-3">
+            <h1>{{ block("title") }}</h1>
         </div>
+
         <div class="card-body">
 
             <div class="container p-5">
@@ -16,24 +18,30 @@
                             {{ form_row(form.nazev) }}
                             {{ form_errors(form.nazev) }}
                         </div>
-                        <div class="col-4">
+                        <div class="col-2">
                             {{ form_widget(form.odeslat, {label: "uložit změny"}) }}
-                            <a class="btn btn-secondary" href="/testy">Zrušit změny</a>
                         </div>
                     </div>
                 {{ form_end(form) }}
             </div>
 
+        </div>
+
+        <div class="card-header p-3">
+            <div class="row px-2">
+                <div class="col text-start">
+                    <h1>Otázky</h1> 
+                </div>
+                <div class="col text-end">
+                    <a class="btn btn-primary" href="{{ path('otazky_nova', { "idTestu": idTestu}) }}">Přidat novou otázku</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+
             <div class="container p-5">
 
-                <div class="row px-2">
-                    <div class="col text-start">
-                        Otázky
-                    </div>
-                    <div class="col text-end">
-                        <a class="btn btn-primary" href="otazky/nova">Přidat novou otázku</a>
-                    </div>
-                </div>
 
                 <table class="table">
                     <tr>
@@ -52,10 +60,10 @@
                                 {% endfor %}
                             </td>
                             <td class="col-2">
-                                <a class="btn btn-primary" href="otazky/{{ otazka.id }}/upravit">upravit</a>
+                                <a class="btn btn-primary" href="{{ path('otazky_upravit', { "idTestu": idTestu, "idOtazky": otazka.id}) }}">upravit</a>
                             </td>
                             <td class="col-2">
-                                <a class="btn btn-danger" href="otazky/{{ otazka.id }}/odstranit">odstranit</a>
+                                <a class="btn btn-danger" href="{{ path('otazky_odstranit_get', { "idTestu": idTestu, "idOtazky": otazka.id}) }}">odstranit</a>
                             </td>
                         </tr>
                     {% endfor %}

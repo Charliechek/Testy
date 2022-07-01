@@ -1,0 +1,44 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Registrace uživatele{% endblock %}
+
+{% block body %}
+    <div class="container card">
+
+        <div class="card-header p-3">
+            <h1>{{ block("title") }}</h1>
+        </div>
+
+        <div class="card-body">
+
+            <div class="container p-5">
+
+                {% for zprava in app.flashes("registrace") %}
+                    <div class="alert alert-success">
+                        {{ zprava }}
+                    </div>
+                {% endfor %}
+
+                {{ form_start(form) }}
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.jmeno) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.password) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col text-center">
+                            {{ form_widget(form.odeslat) }}
+                        </div>
+                    </div>
+                {{ form_end(form) }}
+            </div>
+
+        </div>
+
+    </div>
+{% endblock %}

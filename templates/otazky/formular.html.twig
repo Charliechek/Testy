@@ -44,7 +44,7 @@
     <div class="row mb-3">
         <div class="col text-center">
             {{ form_widget(form.odeslat, {"label": nazevTlacitka}) }}
-            <a class="btn btn-secondary" href="../../upravit">Zrušit</a>
+            <a class="btn btn-secondary" href="{{ path("testy_upravit", { "id": idTestu}) }}">Zrušit</a>
         </div>
     </div>
 

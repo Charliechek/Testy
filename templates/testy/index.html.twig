@@ -4,42 +4,63 @@
 
 {% block body %}
     <div class="container card">
-        <div class="card-header">
-            {{ block("title") }}
+        <div class="card-header p-3">
+
+            <div class="row">        
+                <div class="col text-start">
+                    <h1>{{ block("title") }}</h1>
+                </div>
+
+                {% if is_granted("ROLE_ADMIN") %}
+                    <div class="col text-end">
+                        <a class="btn btn-primary" href="{{ path('testy_novy') }}">vytvořit nový test</a>
+                    </div>
+                {% endif %}
+
+            </div>
+        
         </div>
         <div class="card-body">
 
             <table class="table caption-top">
 
                 <tr>
-                    <td class="col-4">
+                    <td class="col">
                         název
                     </td>
-                    <td class="col-4">
+                    <td class="col">
                         čas vytvoření
                     </td>
                     <td class="col-2"></td>
-                    <td class="col-2"></td>
-                    <td class="col-2"></td>
+
+                    {% if is_granted("ROLE_ADMIN") %}
+                        <td class="col-2"></td>
+                        <td class="col-2"></td>
+                    {% endif %}
+
                 </tr>
 
                 {% for test in testy %}
                     <tr>
-                        <td class="col-4">
+                        <td class="col">
                             {{ test.nazev }}
                         </td>
-                        <td class="col-4">
+                        <td class="col">
                             {{ test.casVytvoreni|date("d.m.Y H:i") }}
                         </td>
                         <td class="col-2">
-                            <a class="btn btn-success" href="/test/{{ test.id }}/spustit">spustit</a>
+                            <a class="btn btn-success" href="{{ path('test_spustit', { "id": test.id}) }}">spustit</a>
                         </td>
-                        <td class="col-2">
-                            <a class="btn btn-primary" href="/testy/{{ test.id }}/upravit">upravit</a>
-                        </td>
-                        <td class="col-2">
-                            <a class="btn btn-danger" href="/testy/{{ test.id }}/odstranit">odstranit</a>
-                        </td>
+
+                        {% if is_granted("ROLE_ADMIN") %}
+                            <td class="col-2">
+                                <a class="btn btn-primary" href="{{ path('testy_upravit', { "id": test.id}) }}">upravit</a>
+                            </td>
+                            <td class="col-2">
+                                <a class="btn btn-danger" href="{{ path('testy_odstranit_get', { "id": test.id}) }}">odstranit</a>
+                            </td>
+                        {% endif %}
+
                     </tr>
                 {% endfor %}
             </table>

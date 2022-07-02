@@ -44,7 +44,7 @@ class UzivatelController extends AbstractController
     public function prihlaseni(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
-            return $this->redirectToRoute('testy_index');
+            return $this->redirectToRoute('ucet_index');
         }
 
         return $this->render('uzivatel/prihlaseni.html.twig', [

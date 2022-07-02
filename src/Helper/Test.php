@@ -2,21 +2,31 @@
 
 namespace App\Helper;
 
+use App\Entity\HistorieTestu;
 use App\Entity\Otazka;
 use App\Entity\Test as EntityTest;
 use App\Helper\TestSession;
+use App\Repository\HistorieTestuRepository;
 use App\Repository\OtazkaRepository;
+use App\Repository\TestRepository;
+use DateTime;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class Test
 {
+    private ManagerRegistry $managerRegistry;
     private OtazkaRepository $otazky;
+    private ?UserInterface $uzivatel;
     private TestSession $session;
 
-    public function __construct(ManagerRegistry $managerRegistry, RequestStack $requestStack)
+    public function __construct(ManagerRegistry $managerRegistry, RequestStack $requestStack, Security $security)
     {
+        $this->managerRegistry = $managerRegistry;
         $this->otazky = new OtazkaRepository($managerRegistry);
+        $this->uzivatel = $security->getUser();
         $this->session = new TestSession($requestStack->getSession());
     }
 
@@ -31,6 +41,7 @@ class Test
         
         $this->session->nastavOtazky($otazky);
         $this->session->nastavAktualniOtazkuNaZacatek();
+        $this->session->nastavIdTestu($test->getId());
     }
         
     public function vratAktualniOtazku(): ?Otazka
@@ -51,7 +62,24 @@ class Test
         $otazkySession = $this->session->vratOtazky();
         $pocetSpravnychOdpovedi = $this->spocitejSpravneOdpovedi($otazkySession);
         $pocetOtazek = count($otazkySession);
+        $this->ulozTest($pocetSpravnychOdpovedi, $pocetOtazek);
         return "Opověděli jste správně na $pocetSpravnychOdpovedi z $pocetOtazek otázek.";
+    }
+
+    public function ulozTest(int $pocetSpravnychOdpovedi, int $pocetOtazek): void
+    {
+        $historieTestu = new HistorieTestu();
+        $testy = new TestRepository($this->managerRegistry);
+        $idTestu = $this->session->vratIdTestu();
+        $historieTestu
+            ->setPocetSpravnychOdpovedi($pocetSpravnychOdpovedi)
+            ->setPocetOtazek($pocetOtazek)
+            ->setTest($testy->find($idTestu))
+            ->setUzivatel($this->uzivatel)
+            ->setCas(new DateTime())
+        ;
+        $historieTestuRepository = new HistorieTestuRepository($this->managerRegistry);
+        $historieTestuRepository->add($historieTestu, true);
     }
 
     public function jeAktualniOtazkaZodpovezena(): bool

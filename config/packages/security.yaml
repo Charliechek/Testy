@@ -38,6 +38,7 @@ security:
         - { path: ^/testy/index, roles: ROLE_UZIVATEL }
         - { path: ^/testy, roles: ROLE_ADMIN }
         - { path: ^/test, roles: ROLE_UZIVATEL }
+        - { path: ^/ucet, roles: ROLE_UZIVATEL }
 
 when@test:
     security:

@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class TestSession
 {
+    public const TEST_ID = "test_id";
     public const OTAZKY = "otazky";
     public const OTAZKY_ODPOVED = "odpoved";
     public const OTAZKY_ID = "id";
@@ -59,5 +60,20 @@ class TestSession
     public function nastavAktualniOtazkuNaZacatek(): void
     {
         $this->session->set(self::AKTUALNI_OTAZKA, 0);
+    }
+
+    public function nastavIdTestu(int $id): void
+    {
+        $this->session->set(self::TEST_ID, $id);
+    }
+
+    public function vratIdTestu(): ?int
+    {
+        return $this->session->get(self::TEST_ID);
+    }
+
+    public function vymazIdTestu(): void
+    {
+        $this->session->remove(self::TEST_ID);
     }
 }

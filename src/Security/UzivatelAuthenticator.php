@@ -49,7 +49,7 @@ class UzivatelAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        return new RedirectResponse($this->urlGenerator->generate('testy_index'));
+        return new RedirectResponse($this->urlGenerator->generate('ucet_index'));
     }
 
     protected function getLoginUrl(Request $request): string

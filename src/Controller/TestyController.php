@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\NovyTestType;
+use App\Repository\HistorieTestuRepository;
 use App\Repository\TestRepository;
 use DateTime;
 use Exception;
@@ -14,10 +15,12 @@ use Symfony\Component\HttpFoundation\Request;
 
 class TestyController extends AbstractController
 {
+    private ManagerRegistry $managerRegistry;
     private TestRepository $testy;
 
     public function __construct(ManagerRegistry $managerRegistry)
     {
+        $this->managerRegistry = $managerRegistry;
         $this->testy = new TestRepository($managerRegistry);
     }
 

@@ -1,0 +1,61 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Uživatelský účet{% endblock %}
+
+{% block body %}
+    <div class="container card">
+
+        <div class="card-header p-3">
+            <h1>{{ block("title") }}</h1>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+                <div class="col">
+                    Historie testů
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    uživatel
+                </div>
+                <div class="col">
+                    čas
+                </div>
+                <div class="col">
+                    test
+                </div>
+                <div class="col">
+                    správné odpovědi / počet otázek
+                </div>
+                <div class="col">
+                    splněno
+                </div>
+            </div>
+
+            {% for test in historieTestu %}
+                <div class="row">
+                    <div class="col">
+                        {{ test.uzivatel.jmeno }}
+                    </div>
+                    <div class="col">
+                        {{ test.cas.format("d.m.Y H:i") }}
+                    </div>
+                    <div class="col">
+                        {{ test.test.nazev | default("-- test byl odstraněn --") }}
+                    </div>
+                    <div class="col">
+                        {{ test.pocetSpravnychOdpovedi }} / {{ test.pocetOtazek }}
+                    </div>
+                    <div class="col">
+                        {{ (test.pocetSpravnychOdpovedi / max(test.pocetOtazek, 1))|format_percent_number }}
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+    </div>
+{% endblock %}

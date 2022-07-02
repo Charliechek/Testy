@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Test;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Entity\HistorieTestu;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Test>
@@ -32,10 +33,21 @@ class TestRepository extends ServiceEntityRepository
 
     public function remove(Test $entity, bool $flush = false): void
     {
+        $this->odeberIdTestuZHistorie($entity);
         $this->getEntityManager()->remove($entity);
 
         if ($flush) {
             $this->getEntityManager()->flush();
+        }
+    }
+    
+    private function odeberIdTestuZHistorie(Test $entity): void
+    {
+        $historieTestu = $entity->getHistorie();
+        foreach ($historieTestu as $zaznam) {
+            $sql = "UPDATE historie_testu SET test_id = null WHERE id = :id;";
+            $dotaz = $this->getEntityManager()->getConnection()->prepare($sql);
+            $dotaz->executeQuery(["id" => $zaznam->getId()]);
         }
     }
 

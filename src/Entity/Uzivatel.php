@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UzivatelRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -23,6 +25,14 @@ class Uzivatel implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string')]
     private $password;
+
+    #[ORM\OneToMany(mappedBy: 'uzivatel', targetEntity: HistorieTestu::class, orphanRemoval: true)]
+    private $historieTestu;
+
+    public function __construct()
+    {
+        $this->historieTestu = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -97,5 +107,35 @@ class Uzivatel implements UserInterface, PasswordAuthenticatedUserInterface
     public function zasifrujHeslo(): void
     {
         $this->password = password_hash($this->password, PASSWORD_DEFAULT);
+    }
+
+    /**
+     * @return Collection<int, HistorieTestu>
+     */
+    public function getHistorieTestu(): Collection
+    {
+        return $this->historieTestu;
+    }
+
+    public function addHistorieTestu(HistorieTestu $historieTestu): self
+    {
+        if (!$this->historieTestu->contains($historieTestu)) {
+            $this->historieTestu[] = $historieTestu;
+            $historieTestu->setUzivatel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHistorieTestu(HistorieTestu $historieTestu): self
+    {
+        if ($this->historieTestu->removeElement($historieTestu)) {
+            // set the owning side to null (unless already changed)
+            if ($historieTestu->getUzivatel() === $this) {
+                $historieTestu->setUzivatel(null);
+            }
+        }
+
+        return $this;
     }
 }

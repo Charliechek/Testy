@@ -10,15 +10,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 class TestController extends AbstractController
 {
     private Test $test;
     private ManagerRegistry $managerRegistry;
 
-    public function __construct(ManagerRegistry $managerRegistry, RequestStack $requestStack)
+    public function __construct(ManagerRegistry $managerRegistry, RequestStack $requestStack, Security $security)
     {
-        $this->test = new Test($managerRegistry, $requestStack);
+        $this->test = new Test($managerRegistry, $requestStack, $security);
         $this->managerRegistry = $managerRegistry;
     }
 
@@ -30,6 +31,10 @@ class TestController extends AbstractController
 
         if (is_null($test)) {
             return $this->redirectToRoute("testy_neexistuje");
+        }
+
+        if ($test->vratPocetOtazek() === 0) {
+            return $this->redirectToRoute("test_prazdny");
         }
 
         $this->test->zacniNovyTest($test);
@@ -82,5 +87,11 @@ class TestController extends AbstractController
         return $this->render("test/konec.html.twig", [
             "vyhodnoceni" =>  $vyhodnoceni
         ]);
+    }
+
+    #[Route('/test/prazdny', name: 'test_prazdny')]
+    public function test_prazdny(): Response
+    {
+        return $this->render("test/prazdny.html.twig");
     }
 }

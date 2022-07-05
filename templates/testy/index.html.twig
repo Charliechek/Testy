@@ -25,17 +25,20 @@
             <table class="table caption-top">
 
                 <tr>
-                    <td class="col">
+                    <th class="col">
                         název
-                    </td>
-                    <td class="col">
+                    </th>
+                    <th class="col">
                         čas vytvoření
-                    </td>
-                    <td class="col-2"></td>
+                    </th>
+                    <th class="col">
+                        počet otázek
+                    </th>
+                    <th class="col-2"></th>
 
                     {% if is_granted("ROLE_ADMIN") %}
-                        <td class="col-2"></td>
-                        <td class="col-2"></td>
+                        <th class="col-2"></th>
+                        <th class="col-2"></th>
                     {% endif %}
 
                 </tr>
@@ -47,6 +50,9 @@
                         </td>
                         <td class="col">
                             {{ test.casVytvoreni|date("d.m.Y H:i") }}
+                        </td>
+                        <td class="col">
+                            {{ test.vratPocetOtazek }}
                         </td>
                         <td class="col-2">
                             <a class="btn btn-success" href="{{ path('test_spustit', { "id": test.id}) }}">spustit</a>

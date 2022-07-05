@@ -2,15 +2,16 @@
 
 namespace App\Controller;
 
+use Exception;
 use App\Helper\Test;
 use App\Repository\TestRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TestController extends AbstractController
 {
@@ -63,6 +64,11 @@ class TestController extends AbstractController
     #[Route('/test/otazka', name: 'test_otazka_odpovezeni', methods: ["POST"])]
     public function otazka_odpovezeni(Request $request): Response
     {
+        $csrf_token = $request->request->get("_token");
+        if (!$this->isCsrfTokenValid('dfgdgjnk', $csrf_token)) {
+            throw new Exception("Nevalidní CSRF token.");
+        }
+
         if ($request->request->has("dalsi_otazka")) {
             $this->test->posunNaDalsiOtazku();
             return $this->redirectToRoute("test_otazka_zobrazeni");

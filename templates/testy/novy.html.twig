@@ -9,21 +9,12 @@
         </div>
         <div class="card-body">
 
-            {{ form_start(form) }}
-                <div class="row">
-                    <div class="col-3 text-end">
-                        {{ form_label(form.nazev) }}
-                    </div>
-                    <div class="col">
-                        {{ form_widget(form.nazev) }}
-                        {{ form_errors(form.nazev) }}
-                    </div>
-                    <div class="col-3 text-start">
-                        {{ form_widget(form.odeslat, {label: "vytvořit"}) }}
-                    </div>
-                </div>
-            {{ form_end(form) }}
+            <div class="container p-5">
 
+                {{ include("testy/formular.html.twig", {popisekTlacitka: "uložit změny"}) }}
+
+            </div>
+            
         </div>
     </div>
 {% endblock %}

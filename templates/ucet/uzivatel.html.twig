@@ -13,41 +13,29 @@
 
             <div class="row">
                 <div class="col">
-                    Historie testů
+                    <h2>Historie testů</h2>
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col">
-                    čas
-                </div>
-                <div class="col">
-                    test
-                </div>
-                <div class="col">
-                    správné odpovědi / počet otázek
-                </div>
-                <div class="col">
-                    splněno
-                </div>
-            </div>
+            <table class="table">
 
-            {% for test in historieTestu %}
-                <div class="row">
-                    <div class="col">
-                        {{ test.cas.format("d.m.Y H:i") }}
-                    </div>
-                    <div class="col">
-                        {{ test.test.nazev | default("-- test byl odstraněn --") }}
-                    </div>
-                    <div class="col">
-                        {{ test.pocetSpravnychOdpovedi }} / {{ test.pocetOtazek }}
-                    </div>
-                    <div class="col">
-                        {{ (test.pocetSpravnychOdpovedi / max(test.pocetOtazek, 1))|format_percent_number }}
-                    </div>
-                </div>
-            {% endfor %}
+                <tr>
+                    <th>čas</th>
+                    <th>test</th>
+                    <th>správné odpovědi / počet otázek</th>
+                    <th>splněno</th>
+                </tr>
+
+                {% for test in historieTestu %}
+                    <tr>
+                        <td>{{ test.cas.format("d.m.Y H:i") }}</td>
+                        <td>{{ test.test.nazev | default("-- test byl odstraněn --") }}</td>
+                        <td>{{ test.pocetSpravnychOdpovedi }} / {{ test.pocetOtazek }}</td>
+                        <td>{{ (test.pocetSpravnychOdpovedi / max(test.pocetOtazek, 1))|format_percent_number }}</td>
+                    </tr>
+                {% endfor %}
+
+            </table>
 
         </div>
 

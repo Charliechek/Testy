@@ -1,0 +1,11 @@
+{{ form_start(form) }}
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.nazev) }}
+            {{ form_errors(form.nazev) }}
+        </div>
+        <div class="col-2">
+            {{ form_widget(form.odeslat, {label: popisekTlacitka}) }}
+        </div>
+    </div>
+{{ form_end(form) }}

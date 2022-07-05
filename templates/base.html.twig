@@ -12,7 +12,7 @@
         <nav class="navbar navbar-expand-lg bg-light mb-5">
             <div class="container-fluid">
 
-                <div class="collapse navbar-collapse justify-content-start">
+                <div class="justify-content-start">
                     <ul class="navbar-nav mb-2 ms-5">
 
                         {% if app.user %}
@@ -27,12 +27,12 @@
                     </ul>
                 </div>
 
-                <div class="collapse navbar-collapse justify-content-end">
+                <div class="justify-content-end">
                     <ul class="navbar-nav mb-2 me-5">
 
                         {% if app.user %}
                             <li class="nav-item px-5 d-flex">                        
-                                <span class="pt-2">Jste přihlášeni jako {{ app.user.userIdentifier }} </span>
+                                <span class="p-2">Jste přihlášeni jako {{ app.user.userIdentifier }} </span>
                                 <a class="nav-link" href="{{ path('uzivatel_odhlaseni') }}">Odhlásit</a>
                             </li>
                         {% else %}
